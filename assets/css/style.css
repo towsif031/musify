@@ -301,6 +301,38 @@ body {
     background-color: #282828;
 }
 
+.tracklistRow .trackCount {
+    width: 8%;
+    float: left;
+}
+
+.tracklistRow .trackCount img {
+    width: 20px;
+    visibility: hidden;
+    position: absolute;
+    cursor: pointer;
+}
+
+.tracklistRow:hover .trackCount img {
+    visibility: visible;
+}
+
+.tracklistRow .trackCount span {
+    visibility: visible;
+}
+
+.tracklistRow:hover .trackCount span {
+    visibility: hidden;
+}
+
+
+
+
+
+
+
+
+
 
 
 
