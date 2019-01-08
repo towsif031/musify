@@ -19,6 +19,11 @@ $(document).ready(function() {
 	updateVolumeProgressBar(audioElement.audio);
 
 
+	$("#nowPlayingBarContainer").on("mousedown touchstart mousemove touchmove", function(e) {
+		e.preventDefault();
+	});
+
+
 	$(".playbackBar .progressBar").mousedown(function() {
 		mouseDown = true;
 	});
@@ -73,8 +78,46 @@ function timeFromOffset(mouse, progressBar) {
 	audioElement.setTime(seconds);
 }
 
+function prevSong() {
+	if(audioElement.audio.currentTime >= 3 || currentIndex == 0) {
+		audioElement.setTime(0);
+	}
+	else {
+		currentIndex = currentIndex - 1;
+		setTrack(currentPlaylist[currentIndex], currentPlaylist, true);
+	}
+}
+
+function nextSong() {
+
+	if(repeat == true) {
+		audioElement.setTime(0);
+		playSong();
+		return;
+	}
+
+	if(currentIndex == currentPlaylist.length - 1) {
+		currentIndex = 0;
+	}
+	else {
+		currentIndex++;
+	}
+
+	var trackToPlay = currentPlaylist[currentIndex];
+	setTrack(trackToPlay, currentPlaylist, true);
+}
+
+function setRepeat() {
+	repeat = !repeat;
+	var imageName = repeat ? "repeat-active.png" : "repeat.png";
+	$(".controlButton.repeat img").attr("src", "assets/images/icons/" + imageName);
+}
+
 
 function setTrack(trackId, newPlaylist, play) {
+
+	currentIndex = currentPlaylist.indexOf(trackId);
+	pauseSong();
 
 	$.post("includes/handlers/ajax/getSongJson.php", { songId: trackId }, function(data) {
 
@@ -158,7 +201,7 @@ function pauseSong() {
 						<img src="assets/images/icons/shuffle.png" alt="Shuffle">
 					</button>
 
-					<button class="controlButton previous" title="Previous button">
+					<button class="controlButton previous" title="Previous button" onclick="prevSong()">
 						<img src="assets/images/icons/previous.png" alt="Previous">
 					</button>
 
@@ -170,11 +213,11 @@ function pauseSong() {
 						<img src="assets/images/icons/pause.png" alt="Pause">
 					</button>
 
-					<button class="controlButton next" title="Next button">
+					<button class="controlButton next" title="Next button" onclick="nextSong()">
 						<img src="assets/images/icons/next.png" alt="Next">
 					</button>
 
-					<button class="controlButton repeat" title="Repeat button">
+					<button class="controlButton repeat" title="Repeat button" onclick="setRepeat()">
 						<img src="assets/images/icons/repeat.png" alt="Repeat">
 					</button>
 
