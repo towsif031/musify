@@ -24,13 +24,16 @@ function setTrack(trackId, newPlaylist, play) {
 	$.post("includes/handlers/ajax/getSongJson.php", { songId: trackId }, function(data) {
 
 		var track = JSON.parse(data);
-
 		$(".trackName span").text(track.title);
 
 		$.post("includes/handlers/ajax/getArtistJson.php", { artistId: track.artist }, function(data) {
 			var artist = JSON.parse(data);
-
 			$(".artistName span").text(artist.name);
+		});
+
+		$.post("includes/handlers/ajax/getAlbumJson.php", { albumId: track.album }, function(data) {
+			var album = JSON.parse(data);
+			$(".albumLink img").attr("src", album.artworkPath);
 		});
 
 
@@ -65,7 +68,7 @@ function pauseSong() {
 		<div id="nowPlayingLeft">
 			<div class="content">
 				<span class="albumLink">
-					<img src="https://i.ytimg.com/vi/rb8Y38eilRM/maxresdefault.jpg" class="albumArtwork">
+					<img src="" class="albumArtwork">
 				</span>
 
 				<div class="trackInfo">
