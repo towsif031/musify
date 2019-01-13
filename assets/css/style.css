@@ -392,7 +392,9 @@ body {
     text-align: center;
 }
 
-
+[role="link"] {
+    cursor: pointer;
+}
 
 
 
