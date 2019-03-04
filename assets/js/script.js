@@ -26,6 +26,21 @@ function openPage(url) {
 	history.pushState(null, null, url);
 }
 
+function createPlaylist(username) {
+	var alert = prompt("Please enter the name of your playlist");
+
+	if(alert != null) {
+
+		$.post("includes/handlers/ajax/createPlaylist.php", { name: alert, username: username })
+		.done(function() {
+			//do something when ajax returns
+			openPage("yourMusic.php");
+		});
+
+	}
+
+}
+
 
 function formatTime(seconds) {
 	var time = Math.round(seconds);
@@ -48,6 +63,10 @@ function updateTimeProgressBar(audio) {
 function updateVolumeProgressBar(audio) {
 	var volume = audio.volume * 100;
 	$(".volumeBar .progress").css("width", volume + "%");
+}
+
+function playFirstSong() {
+	setTrack(tempPlaylist[0], tempPlaylist, true);
 }
 
 function Audio() {
